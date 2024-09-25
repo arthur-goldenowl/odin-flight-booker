@@ -1,0 +1,52 @@
+<%= form_with url: root_path, method: :get, local: true do %>
+  <p><%= label_tag :departure_airport, "Departure Airport" %>
+  <%= select_tag :departure_airport, options_from_collection_for_select(@airports, :id, :code), prompt: "Select Departure" %></p>
+
+  <p><%= label_tag :arrival_airport, "Arrival Airport" %>
+  <%= select_tag :arrival_airport, options_from_collection_for_select(@airports, :id, :code), prompt: "Select Arrival" %></p>
+
+  <p><%= label_tag :date, "Date" %>
+  <%= date_field_tag :date %></p>
+
+  <p><%= submit_tag "Search Flights" %></p>
+<% end %>
+
+<style>
+  .flight-table th, .flight-table td {
+    padding: 10px;
+  }
+</style>
+
+<% if @flights.present? %>
+  <h2>Available Flights</h2>
+  <%= form_with url: new_booking_path, method: :get, local: true do %>
+    <table class="flight-table">
+      <thead>
+        <tr>
+          <th>Departure Airport</th>
+          <th>Arrival Airport</th>
+          <th>Departure Time</th>
+          <th>Duration</th>
+          <th>Choose</th>
+        </tr>
+      </thead>
+      <tbody>
+
+          <% @flights.each do |flight| %>
+            <tr>
+              <td><%= flight.departure_airport.code %></td>
+              <td><%= flight.arrival_airport.code %></td>
+              <td><%= flight.start_datetime %></td>
+              <td><%= flight.duration %></td>
+              <td><%= radio_button_tag :flight_id, flight.id %></td>
+            </tr>
+          <% end %>
+
+
+      </tbody>
+    </table>
+    <p><%= label_tag :num_passengers, "Number of Passengers" %>
+    <%= select_tag :num_passengers, options_for_select([1, 2, 3, 4, 5, 6], 1), prompt: "Select Number of Passengers" %></p>
+    <%= submit_tag "Choose Flight" %>
+  <% end %>
+<% end %>

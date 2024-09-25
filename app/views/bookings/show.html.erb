@@ -1,0 +1,17 @@
+<h1>Booking Details</h1>
+<p>Flight: <%= @booking.flight.departure_airport.code %> to <%= @booking.flight.arrival_airport.code %></p>
+<p>Departure Time: <%= @booking.flight.start_datetime %></p>
+<p>Duration: <%= @booking.flight.duration %></p>
+
+<h2>Passengers</h2>
+<ul>
+  <% @booking.passengers.each_with_index do |passenger, index| %>
+
+    <li>
+      <h4>Passenger <%= index + 1 %>: <%= passenger.name %></h4>
+      <p>Email: <%= passenger.email %></p>
+    </li>
+  <% end %>
+</ul>
+
+<%= link_to "Back to Flights", root_path %>

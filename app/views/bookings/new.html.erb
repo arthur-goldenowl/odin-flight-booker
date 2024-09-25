@@ -1,0 +1,36 @@
+<h2>Booking for Flight <%= @flight.departure_airport.code %> to <%= @flight.arrival_airport.code %></h2>
+
+<%= form_with model: @booking, local: true do |form| %>
+  <p>Flight: <%= @flight.departure_airport.code %> to <%= @flight.arrival_airport.code %>, <%= @flight.start_datetime %></p>
+
+  <%= form.hidden_field :flight_id, value: @flight.id %>
+
+  <div id="passenger_fields">
+    <% puts "Passenger count: #{@booking.passengers.size}" %>
+
+    <% @booking.passengers.each_with_index do |passenger, index| %>
+      <div class="passenger">
+        <h4>Passenger <%= index + 1 %></h4>
+        <%= form.fields_for :passengers, passenger do |passenger_form| %>
+          <p><%= passenger_form.label :name %>
+          <%= passenger_form.text_field :name %></p>
+
+          <p><%= passenger_form.label :email %>
+          <%= passenger_form.email_field :email %></p>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <p><%= button_tag(type: 'button', id: 'add_passenger', class: 'btn btn-secondary') do %>
+    Add Passenger
+  <% end %></p>
+
+  <p><%= button_tag(type: 'button', id: 'remove_passenger', class: 'btn btn-secondary',
+    style: (@booking.passengers.size > 1 ? "display: inline-block;" : "display: none;")) do %>
+    Remove Passenger
+  <% end %></p>
+
+  <p><%= form.submit "Complete Booking" %></p>
+<% end %>
+

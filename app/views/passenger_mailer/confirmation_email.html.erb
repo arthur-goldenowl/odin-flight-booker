@@ -1,0 +1,10 @@
+<h1>Flight Booking Confirmation</h1>
+<p>Hello, <%= @passenger.name %>!</p>
+<p>You have successfully booked your flight:</p>
+<ul>
+  <li>Departure Airport: <%= @flight.departure_airport.code %></li>
+  <li>Arrival Airport: <%= @flight.arrival_airport.code %></li>
+  <li>Departure Time: <%= @flight.start_datetime.strftime("%Y-%m-%d %H:%M") %></li>
+  <li>Duration: <%= @flight.duration %> hours</li>
+</ul>
+<p>Thank you for booking with us!</p>
